@@ -361,7 +361,7 @@ namespace chess
             m_sideToMove(Color::White),
             m_epSquare(Square::NB),
             m_castlingRights(CastlingRights::All),
-            //m_rule50Counter(0),
+            m_rule50Counter(0),
             m_ply(0)
         {
         }
@@ -371,7 +371,7 @@ namespace chess
             m_sideToMove(sideToMove),
             m_epSquare(epSquare),
             m_castlingRights(castlingRights),
-            //m_rule50Counter(0),
+            m_rule50Counter(0),
             m_ply(0)
         {
         }
@@ -396,10 +396,10 @@ namespace chess
             m_castlingRights = rights;
         }
 
-        //constexpr void setRule50Counter(std::uint8_t v)
-        //{
-        //    m_rule50Counter = v;
-        //}
+        constexpr void setRule50Counter(std::uint8_t v)
+        {
+            m_rule50Counter = v;
+        }
 
         constexpr void setPly(std::uint16_t ply)
         {
@@ -416,10 +416,10 @@ namespace chess
             return m_sideToMove;
         }
 
-        //[[nodiscard]] inline std::uint8_t rule50Counter() const
-        //{
-        //    return m_rule50Counter;
-        //}
+        [[nodiscard]] inline std::uint8_t rule50Counter() const
+        {
+            return m_rule50Counter;
+        }
 
         [[nodiscard]] inline std::uint16_t ply() const
         {
@@ -736,7 +736,7 @@ namespace binpack
             }
 
             // Halfmove clock
-            //std::uint8_t rule50 = stream.read_n_bit(6);
+            std::uint8_t rule50 = stream.read_n_bit(6);
 
             // Fullmove number
             std::uint16_t fullmove = stream.read_n_bit(8);
@@ -749,10 +749,10 @@ namespace binpack
             // Read the highest bit of rule50. This was added as a fix for rule50
             // counter having only 6 bits stored.
             // In older entries this will just be a zero bit.
-            //rule50 |= stream.read_n_bit(1) << 6;
+            rule50 |= stream.read_n_bit(1) << 6;
 
             pos.setFullMove(fullmove);
-            //pos.setRule50Counter(rule50);
+            pos.setRule50Counter(rule50);
 
             assert(stream.get_cursor() <= 512);
 
