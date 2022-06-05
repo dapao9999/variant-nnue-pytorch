@@ -714,7 +714,7 @@ namespace binpack
 
             for (chess::Color c : { chess::Color::White, chess::Color::Black })
                 for (chess::PieceType pt = chess::PieceType::Pawn; pt <= chess::PieceType::MaxPiece; ++pt)
-                    pos.setHandCount(make_piece(pt, c), static_cast<int>(stream.read_n_bit(5)));
+                    pos.setHandCount(make_piece(pt, c), static_cast<int>(stream.read_n_bit(DATA_SIZE > 512 ? 7 : 5)));
 
             // Castling availability.
             chess::CastlingRights cr = chess::CastlingRights::None;
